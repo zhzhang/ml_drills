@@ -1,0 +1,72 @@
+<!doctype html>
+
+<head>
+    <title>ML Drills</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</head>
+
+<body>
+<div class='page-head'>
+    <h1>Logistic Regression</h1>
+</div>
+<div class='content'>
+
+
+<h1>Derivation</h1>
+Suppose we have a set of $n$ points $x_{1},\ldots,x_{n}$ along with a set of labels $y_{1},\ldots,y_{n}$, where the $y_{i}$ take on the value of 1 or 0, representing one of two classes.
+These are plotted below, with colors instead.
+<br>
+<img src="assets/exercise1/linearly_separable.png">
+<br>
+How can we find a line (or hyperplane in higher dimensions) that divides the data so that, for the most part, orange dots are on one side and blue dots are on the other?
+We need a function that outputs a very high value on one side of the dividing plane, and a very low value on the other side.
+There are many candidate functions for this.
+A simple step function $f(x) = 1$ for $x > 0$, 0 otherwise is one example.
+Another is the logistic function
+$$f(x) = \frac{1}{1+e^{-x}}$$
+Plot this for yourself to check that it has the desired shape, a very low value on one side that quickly changes to a high value on the other side.
+<br>
+Suppose we have a hyperplane, represented by the vector $\theta$.
+Then the output of the logistic classifier would be
+$$\hat{y} = \frac{1}{1+e^{-x\cdot\theta}}$$
+We need some sense of how good the plane is at separating the points, a cost function.
+We use the cross entropy.
+$$-\left(y\log\hat{y} + (1-y)\log(1-\hat{y})\right)$$
+Plot this and check that it is large when the prediction $\hat{y}$ is difference from the actual label $y$.
+The convention is for $0\log 0$ to equal 0.
+<br>
+We want to pick a plane that makes the total error over all data points as low as possible.
+In other words we want to find the $\theta$ that minimizes the loss function $J(\theta)$
+$$J(\theta) = \sum\limits_{i=0}^{n}-\left(y_{i}\log\hat{y}_{i} + (1-y_{i})\log(1-\hat{y}_{i})\right)$$
+In calculus you'd typically take the derivative, set it to 0, and solve.
+Unfortunately, this doesn't work for logistic regression, and the reason is simply that nobody has been able to think of a way to do it.
+<br>
+However, we can still find the gradient $\nabla J$, which points us in the direction that the total error decreases.
+If we keep taking steps along this direction, we'll eventually walk to a $\theta$ where the loss function no longer changes, meaning we've minimized it.
+This is gradient descent.
+<br>
+
+<h1>Implementation</h1>
+<h2>Setup</h2>
+We'll be coding in python. Install the following:
+<ul>
+    <li>numpy</li>
+    <li>SciKit Learn</li>
+    <li>Jupyter Notebook</li>
+</ul>
+
+<h1>Extras</h1>
+The objective function of logistic regression is convex.
+<div class="math-exercise">
+Show that the objective function of logistic regression is convex.
+<div>
+
+
+</div>
+</body>
