@@ -32,12 +32,17 @@ Another is the logistic function
 $$f(x) = \frac{1}{1+e^{-x}}$$
 Plot this for yourself to check that it has the desired shape, a very low value on one side that quickly changes to a high value on the other side.
 <br>
-Suppose we have a hyperplane, represented by the vector $\theta$.
+Suppose we have a hyperplane, represented by the vector $\theta$, also known as the parameters.
 Then the output of the logistic classifier would be
+$$\hat{y} = \frac{1}{1+e^{-(x\cdot\beta_{0} + \beta_{1})}}$$
+The expression inside the exponent looks like the $mx + b$ slope-intercept form of a line, but the $x\cdot\beta_{0}$ part is a vector multiplication instead.
+If we add a 1 at the beginning of every vector $x$, we can write this as a single vector multiplication.
 $$\hat{y} = \frac{1}{1+e^{-x\cdot\theta}}$$
+We call $\theta$ the parameters of the classifier.
+<br>
 We need some sense of how good the plane is at separating the points, a cost function.
-We use the cross entropy.
-$$-\left(y\log\hat{y} + (1-y)\log(1-\hat{y})\right)$$
+We'll use the cross entropy.
+$$-\left(y_{i}\log\hat{y}_{i} + (1-y_{i})\log(1-\hat{y}_{i})\right)$$
 Plot this and check that it is large when the prediction $\hat{y}$ is difference from the actual label $y$.
 The convention is for $0\log 0$ to equal 0.
 <br>
@@ -49,17 +54,28 @@ Unfortunately, this doesn't work for logistic regression, and the reason is simp
 <br>
 However, we can still find the gradient $\nabla J$, which points us in the direction that the total error decreases.
 If we keep taking steps along this direction, we'll eventually walk to a $\theta$ where the loss function no longer changes, meaning we've minimized it.
+We want to take small steps, of size $\alpha$, so that we don't end up passing the minimum.
+$$\theta^{(i)} = \theta^{(i-1)} + \alpha\nabla J(\theta^{i-1})$$
+Where $\theta^{(i)}$ is the parameters of at the $i$-th step.
 This is gradient descent.
 <br>
+Show that the gradient of the loss function is $\nabla J = (y-\hat{y})\cdot X$, where $X$ is a matrix containing each of the data points as a row vector, padded with a column of ones as explained previously.
+
+<br>
+With this in hand we can write the code that implements gradient descent for logistic regression.
 
 <h1>Implementation</h1>
 <h2>Setup</h2>
-We'll be coding in python. Install the following:
+We'll be coding in python.
+Install conda, then use it to install the following:
 <ul>
     <li>numpy</li>
     <li>SciKit Learn</li>
     <li>Jupyter Notebook</li>
 </ul>
+Once you've installed these, run jupyter notebook and navigate to the directory for the first exercise.
+Replace the TODO with your implementation of the update algorithm.
+Then play with the step size $\alpha$.
 
 <h1>Extras</h1>
 The objective function of logistic regression is convex.
